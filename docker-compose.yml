@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # The application server service
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    # The default command is `npm run server`, as defined in the Dockerfile.
+
+  # The test runner service that executes Playwright tests
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Override the default command to run tests instead of the server.
+    command: npm test
+    # This ensures the server is running before the tests start.
+    depends_on:
+      - server
+    # Set environment variables so tests can find the server inside the Docker network.
+    environment:
+      - API_URL=http://server:3000
+      - WS_URL=ws://server:3000

@@ -1,10 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { SocketClient, TimeoutError } from "../../utils/socketClient.ts";
+import { test, expect } from '@playwright/test';
+import { SocketClient, TimeoutError } from '../../utils/socketClient.ts';
 
-const API_URL = "http://localhost:3000";
-const WS_URL = "ws://localhost:3000";
+const API_URL = process.env.API_URL || 'http://localhost:3000';
+const WS_URL = process.env.WS_URL || 'ws://localhost:3000';
 
-test.describe("Chat Reliability & Chaos", () => {
+test.describe('Chat Reliability & Chaos', () => {
   test.describe.configure({ mode: 'serial' });
 
   let userA: SocketClient;
@@ -26,8 +26,8 @@ test.describe("Chat Reliability & Chaos", () => {
     userB.close();
   });
 
-  test("should broadcast messages between users instantly", async () => {
-    const msg = "Hello from User A";
+  test('should broadcast messages between users instantly', async () => {
+    const msg = 'Hello from User A';
     userA.send(msg);
 
     // User B should receive it immediately
@@ -35,26 +35,25 @@ test.describe("Chat Reliability & Chaos", () => {
     expect(received).toContain(msg);
   });
 
-  test("should respect server-side latency", async ({ request }) => {
+  test('should respect server-side latency', async ({ request }) => {
     // Inject 500ms latency
     await request.post(`${API_URL}/chaos`, { data: { latency: 500 } });
 
-    const msg = "Delayed Message";
+    const msg = 'Delayed Message';
     const start = Date.now();
     userA.send(msg);
 
     await userB.waitForMessage(msg, 2000);
     const duration = Date.now() - start;
 
-    console.log(`Message took ${duration}ms`);
     expect(duration).toBeGreaterThan(500); // Must be at least the latency we set
   });
 
-  test("should drop messages when dropRate is 100%", async ({ request }) => {
+  test('should drop messages when dropRate is 100%', async ({ request }) => {
     // Inject 100% packet loss
     await request.post(`${API_URL}/chaos`, { data: { dropRate: 1.0 } });
 
-    const msg = "This message should be dropped";
+    const msg = 'This message should be dropped';
     userA.send(msg);
 
     // Assert that userB *never* receives the message.

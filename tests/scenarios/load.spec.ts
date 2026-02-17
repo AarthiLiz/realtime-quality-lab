@@ -1,12 +1,12 @@
-import { test, expect } from "@playwright/test";
-import { SocketClient } from "../../utils/socketClient.ts";
-import { TestData } from "../../utils/testData.ts";
+import { test, expect } from '@playwright/test';
+import { SocketClient } from '../../utils/socketClient.ts';
+import { TestData } from '../../utils/testData.ts';
 
-const WS_URL = "ws://localhost:3000";
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.API_URL || 'http://localhost:3000';
+const WS_URL = process.env.WS_URL || 'ws://localhost:3000';
 const CLIENT_COUNT = 50;
 
-test.describe("Performance & Load", () => {
+test.describe('Performance & Load', () => {
   test.beforeEach(async ({ request }) => {
     await request.post(`${API_URL}/chaos`, {
       data: { latency: 0, dropRate: 0 },

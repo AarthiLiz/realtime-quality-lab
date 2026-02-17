@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realtime Quality Lab - Dashboard</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        color: #212529;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #343a40;
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 0.5rem;
+      }
+      .badge {
+        margin-right: 5px;
+      }
+      .links a {
+        display: block;
+        background-color: #e9ecef;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        text-decoration: none;
+        color: #007bff;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.2s;
+      }
+      .links a:hover {
+        background-color: #ced4da;
+      }
+      footer {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 0.9em;
+        color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧪 Realtime Quality Lab - Dashboard</h1>
+      <p>A central hub for all quality metrics and reports for this project.</p>
+
+      <h2>CI Status</h2>
+      <a href="https://github.com/AarthiLiz/realtime-quality-lab/actions/workflows/ci.yml">
+        <img
+          class="badge"
+          src="https://github.com/AarthiLiz/realtime-quality-lab/actions/workflows/ci.yml/badge.svg"
+          alt="CI Status"
+        />
+      </a>
+
+      <h2>📊 Live Reports & Artifacts</h2>
+      <div class="links">
+        <a href="./report/">View Latest Allure Test Report</a>
+        <a href="https://github.com/AarthiLiz/realtime-quality-lab/blob/main/README.md"
+          >View Project README</a
+        >
+        <a href="https://github.com/AarthiLiz/realtime-quality-lab/blob/main/INTERVIEW_GUIDE.md"
+          >View Interview Guide</a
+        >
+      </div>
+
+      <h2>🚀 Key Technologies</h2>
+      <p>
+        <img
+          class="badge"
+          src="https://img.shields.io/badge/Playwright-2EAD6A?logo=playwright"
+          alt="Playwright"
+        />
+        <img
+          class="badge"
+          src="https://img.shields.io/badge/Docker-2496ED?logo=docker"
+          alt="Docker"
+        />
+        <img
+          class="badge"
+          src="https://img.shields.io/badge/Node.js-339933?logo=nodedotjs"
+          alt="Node.js"
+        />
+        <img
+          class="badge"
+          src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript"
+          alt="TypeScript"
+        />
+      </p>
+    </div>
+    <footer>Portfolio Project by Aarthi Elizabeth</footer>
+  </body>
+</html>

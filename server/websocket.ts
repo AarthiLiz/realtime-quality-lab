@@ -1,6 +1,6 @@
-import { WebSocketServer, WebSocket } from "ws";
-import { Server } from "http";
-import { chaosState } from "./chaos.ts";
+import { WebSocketServer, WebSocket } from 'ws';
+import { Server } from 'http';
+import { chaosState } from './chaos.ts';
 
 let wss: WebSocketServer | undefined;
 
@@ -11,10 +11,10 @@ let wss: WebSocketServer | undefined;
 export function createWebSocketServer(server: Server) {
   wss = new WebSocketServer({ server });
 
-  wss.on("connection", (ws: WebSocket) => {
-    console.log("[WebSocket] Client connected.");
+  wss.on('connection', (ws: WebSocket) => {
+    console.log('[WebSocket] Client connected.');
 
-    ws.on("message", (message: Buffer) => {
+    ws.on('message', (message: Buffer) => {
       // 1. Chaos: Packet Drop
       if (Math.random() < chaosState.dropRate) {
         console.log(`[Chaos] Dropped message: ${message.toString()}`);
@@ -35,12 +35,12 @@ export function createWebSocketServer(server: Server) {
       }, chaosState.latency);
     });
 
-    ws.on("close", () => {
-      console.log("[WebSocket] Client disconnected.");
+    ws.on('close', () => {
+      console.log('[WebSocket] Client disconnected.');
     });
   });
 
-  console.log("WebSocket server is set up and listening.");
+  console.log('WebSocket server is set up and listening.');
 }
 
 export function broadcast(message: string) {
