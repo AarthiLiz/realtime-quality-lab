@@ -1,0 +1,33 @@
+{
+  "name": "realtime-quality-lab",
+  "version": "1.0.0",
+  "description": "Automation experiments for real-time messaging reliability",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AarthiLiz/realtime-quality-lab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AarthiLiz/realtime-quality-lab/issues"
+  },
+  "homepage": "https://github.com/AarthiLiz/realtime-quality-lab#readme",
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "playwright": "^1.58.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.13.5",
+    "express": "^5.2.1",
+    "faker": "^6.6.6",
+    "ws": "^8.19.0",
+    "zod": "^4.3.6"
+  }
+}
