@@ -1,17 +1,23 @@
-import WebSocket from 'ws';
+import { createRequire } from 'module';
 import { Server } from 'http';
 import { chaosState } from './chaos.ts';
+import type { WebSocket, WebSocketServer as WebSocketServerType } from 'ws';
 
-let wss: WebSocket.Server | undefined;
+const require = createRequire(import.meta.url);
+const WebSocketPkg = require('ws');
+const WebSocketServer = WebSocketPkg.Server;
+
+let wss: WebSocketServerType | undefined;
 
 /**
  * Creates and attaches a WebSocket server to an existing HTTP server.
  * @param server The HTTP server instance to attach to.
  */
 export function createWebSocketServer(server: Server) {
-  wss = new WebSocket.Server({ server });
+  const wsServer = new WebSocketServer({ server });
+  wss = wsServer;
 
-  wss.on('connection', (ws: WebSocket) => {
+  wsServer.on('connection', (ws: WebSocket) => {
     console.log('[WebSocket] Client connected.');
 
     ws.on('message', (message: Buffer) => {
@@ -28,7 +34,7 @@ export function createWebSocketServer(server: Server) {
         // Directly iterate over clients within the message handler's scope
         // to avoid potential closure/reference issues across async boundaries.
         wss?.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
+          if (client.readyState === WebSocketPkg.OPEN) {
             client.send(msg);
           }
         });
@@ -45,9 +51,9 @@ export function createWebSocketServer(server: Server) {
 
 export function broadcast(message: string) {
   console.log(`[WebSocket] Broadcasting from external function: ${message}`);
-  if (!wss) return;
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
+  // Use optional chaining to safely access clients if wss is initialized.
+  wss?.clients.forEach((client) => {
+    if (client.readyState === WebSocketPkg.OPEN) {
       client.send(message);
     }
   });
