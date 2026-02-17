@@ -4,7 +4,11 @@ import { SocketClient } from "../../utils/socketClient.ts";
 test.describe("Realtime WebSocket", () => {
   let client: SocketClient;
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ request }) => {
+    await request.post("http://localhost:3000/chaos", {
+      data: { latency: 0, dropRate: 0 },
+    });
+
     client = new SocketClient("ws://localhost:3000");
     await client.connect();
   });

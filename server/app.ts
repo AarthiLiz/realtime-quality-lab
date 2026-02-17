@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 
 let messages: string[] = [];
+let chaosTimer: any = null;
 
 app.post("/message", (req, res) => {
   const { text } = req.body;
@@ -37,6 +38,15 @@ app.post("/chaos", (req, res) => {
   if (typeof latency === "number") chaosState.latency = latency;
   if (typeof dropRate === "number") chaosState.dropRate = dropRate;
   console.log(`[Chaos] Updated: Latency=${chaosState.latency}ms, DropRate=${chaosState.dropRate}`);
+
+  // Safety: Auto-reset chaos state after 5 seconds to prevent test pollution
+  if (chaosTimer) clearTimeout(chaosTimer);
+  chaosTimer = setTimeout(() => {
+    chaosState.latency = 0;
+    chaosState.dropRate = 0;
+    console.log("[Chaos] Safety: Auto-reset to normal state");
+  }, 5000);
+
   res.json(chaosState);
 });
 

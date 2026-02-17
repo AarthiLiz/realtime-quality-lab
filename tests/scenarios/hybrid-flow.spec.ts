@@ -7,7 +7,11 @@ const WS_URL = "ws://localhost:3000";
 test.describe("Hybrid Protocol Integration", () => {
   let client: SocketClient;
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ request }) => {
+    await request.post(`${API_URL}/chaos`, {
+      data: { latency: 0, dropRate: 0 },
+    });
+
     client = new SocketClient(WS_URL);
     await client.connect();
   });
