@@ -1,15 +1,15 @@
-import { WebSocketServer, WebSocket } from 'ws';
+import WebSocket from 'ws';
 import { Server } from 'http';
 import { chaosState } from './chaos.ts';
 
-let wss: WebSocketServer | undefined;
+let wss: WebSocket.Server | undefined;
 
 /**
  * Creates and attaches a WebSocket server to an existing HTTP server.
  * @param server The HTTP server instance to attach to.
  */
 export function createWebSocketServer(server: Server) {
-  wss = new WebSocketServer({ server });
+  wss = new WebSocket.Server({ server });
 
   wss.on('connection', (ws: WebSocket) => {
     console.log('[WebSocket] Client connected.');
