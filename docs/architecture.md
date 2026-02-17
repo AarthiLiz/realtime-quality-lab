@@ -1,10 +1,11 @@
+---
 # System Architecture
 
 ## Overview
 
-The Realtime Quality Lab simulates a distributed messaging system to validate quality attributes like reliability, latency handling, and fault tolerance.
+Realtime Quality Lab is a distributed testbed for validating reliability, latency, and fault tolerance in real-time messaging systems. It combines REST and WebSocket protocols, chaos engineering, and automated E2E testing.
 
-## Diagram
+## System Diagram
 
 ```mermaid
 graph TD
@@ -22,22 +23,28 @@ graph TD
     end
 ```
 
-## Components
+## Key Components
 
 ### 1. Mock Server (`server/`)
-
-- **Technology**: Node.js, Express, `ws` library.
-- **Role**: Acts as the backend service. It supports hybrid protocols (REST + WebSockets).
-- **Key Feature**: It does not just echo messages; it broadcasts them to simulate a chat room or notification system.
+- **Node.js + Express + ws**
+- Handles both REST and WebSocket traffic
+- Broadcasts messages to all connected clients (simulates chat/notification system)
+- Exposes `/chaos` endpoint for dynamic fault injection
 
 ### 2. Chaos Engine (`server/chaos.ts`)
+- Intercepts outgoing WebSocket messages
+- **Latency:** Delays delivery by configurable ms
+- **Packet Loss:** Drops messages probabilistically via `dropRate`
+- Controlled via REST API (`POST /chaos`)
 
-- **Role**: Intercepts outgoing WebSocket messages.
-- **Capabilities**:
-  - **Latency**: Delays message delivery by $N$ milliseconds.
-  - **Packet Loss**: Probabilistically drops messages based on a configured `dropRate`.
-- **Control**: Controlled via the `POST /chaos` endpoint, allowing tests to dynamically alter network conditions.
+### 3. Test Client (`utils/socketClient.ts`)
+- Thin wrapper around WebSocket for test automation
+- Features: `waitForMessage(pattern)`, message history, robust connect/disconnect
 
+---
+**See also:**
+- [Test Strategy](test-strategy.md) for QA philosophy and scenario breakdown
+- [README.md](../README.md) for quickstart and project structure
 ### 3. Test Client (`utils/socketClient.ts`)
 
 - **Role**: A wrapper around the raw WebSocket client to make testing easier.

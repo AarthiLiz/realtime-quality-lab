@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install production dependencies using 'npm ci' for faster, reliable builds
+# Install production dependencies. Using 'npm install' to handle the out-of-sync lockfile.
 RUN npm install --only=production
 
 # Copy the rest of the application source code

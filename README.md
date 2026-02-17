@@ -1,61 +1,50 @@
+
 # Realtime Quality Lab 🧪
 
 [![CI](https://github.com/AarthiLiz/realtime-quality-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/AarthiLiz/realtime-quality-lab/actions/workflows/ci.yml)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-A robust test automation framework designed to validate **Realtime WebSocket Architectures**. This project demonstrates advanced QA strategies including chaos engineering, load testing, and hybrid protocol verification.
+**A robust, containerized test automation framework for validating Realtime WebSocket Architectures.**
 
 ---
 
-### ✨ Live Quality Dashboard
+## 📊 Live Dashboard & Docs
 
-A live dashboard showcasing CI status and the latest test reports is published to GitHub Pages.
-
-**➡️ View the Live Dashboard**
+- [Live CI Status & Reports](https://github.com/AarthiLiz/realtime-quality-lab/actions/workflows/ci.yml)
+- [System Architecture](docs/architecture.md)
+- [Test Strategy](docs/test-strategy.md)
+- [Interview Guide](INTERVIEW_GUIDE.md)
 
 ---
 
 ## 🚀 Features
 
-This project demonstrates a comprehensive, modern approach to quality engineering:
+- **Hybrid E2E Testing:** REST + WebSocket flows
+- **Chaos Engineering:** Latency & packet loss injection
+- **Visual Regression:** Playwright screenshot diffing
+- **Load Testing:** k6 scripts for concurrency
+- **Containerized:** Docker for reproducibility
+- **CI/CD:** GitHub Actions, Allure reporting
+- **Strict Code Quality:** ESLint, Prettier
 
-- **Hybrid Testing**: End-to-end tests that validate interactions between REST APIs and WebSockets.
-- **Chaos Engineering**: A custom "Chaos Engine" to programmatically inject latency and packet loss, testing system resilience.
-- **Visual Regression Testing**: Automated screenshot comparisons with Playwright to catch unintended UI changes.
-- **Load Testing**: Dedicated load test scripts using **k6** to validate system performance under concurrency.
-- **Containerized Environment**: The entire stack (server, tests, tools) is containerized with **Docker** for perfect reproducibility.
-- **CI/CD Pipeline**: A sophisticated **GitHub Actions** workflow that runs all tests and publishes a live quality dashboard.
-- **Advanced Reporting**: Rich, detailed test reports generated with **Allure**, including screenshots and traces on failure.
-- **Code Quality**: Enforced code style and quality using **ESLint** and **Prettier**.
+## ⚡ Quickstart
 
-## 🛠️ How to Run
-
-### Prerequisites
-
-- Docker Desktop must be installed and running.
-
-### 1. Run the Full Test Suite (Recommended)
-
-This single command builds the server image, starts the server, and runs all Playwright tests in an isolated environment.
-
-```bash
-docker-compose up --build --abort-on-container-exit
-```
-
-### 2. Start the Mock Server
-
-**Option A: Run locally**
-```bash
-npm run server
-```
-
-_Server runs on `http://localhost:3000`_
-
-### 3. Run Tests
-
-```bash
-npm test
-```
+1. **Full suite (isolated, recommended):**
+	```bash
+	docker-compose up --build --abort-on-container-exit
+	```
+2. **Start server locally:**
+	```bash
+	npm run server
+	# http://localhost:3000
+	```
+3. **Run tests:**
+	```bash
+	npm test
+	```
+4. **View reports:**
+	- Allure: open `allure-results/` with Allure CLI
+	- Playwright: open `playwright-report/index.html`
 
 ## 🧪 Test Scenarios
 
@@ -68,14 +57,14 @@ npm test
 | **Load Test**           | Simulates 50 concurrent clients to verify throughput.   |
 | **Resilience**          | Verifies client reconnection logic.                     |
 
-> See Test Strategy for details on our QA philosophy.
+> See [Test Strategy](docs/test-strategy.md) for QA philosophy and patterns.
 
 ## 📂 Project Structure
 
-- `server/`: Mock backend with Chaos logic.
-- `tests/scenarios/`: Playwright test specs.
-- `utils/`: Shared helpers (SocketClient, TestData).
+- `server/`: Node.js backend, chaos logic, WebSocket/REST endpoints
+- `tests/scenarios/`: Playwright E2E, chaos, load, hybrid tests
+- `utils/`: Shared helpers (SocketClient, TestData)
 
 ---
 
-_Created as a portfolio demonstration of Senior QA Engineering skills._
+_Portfolio project by Aarthi Elizabeth._

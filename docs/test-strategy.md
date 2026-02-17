@@ -1,39 +1,42 @@
+
 # Test Strategy
 
 ## Philosophy
+Reliability is a feature. We test not just the "happy path" but also system behavior under stress, chaos, and concurrency.
 
-We move beyond simple "happy path" testing to verify how the system behaves under stress and failure. This framework treats **reliability as a feature**.
-
-## Test Levels
+## Test Levels & Patterns
 
 ### 1. Functional Testing
-
-- **Goal**: Verify basic features work.
-- **Scenarios**:
-  - Health check endpoint returns 200.
-  - WebSocket connects successfully.
-  - Messages sent by User A are received by User B.
+- **Goal:** Verify core features
+- **Examples:**
+  - [health-check.spec.ts](../tests/scenarios/health-check.spec.ts): `/health` returns 200
+  - [websocket.spec.ts](../tests/scenarios/websocket.spec.ts): WebSocket echo/broadcast
 
 ### 2. Resilience Testing (Chaos)
-
-- **Goal**: Verify system stability when the network is unreliable.
-- **Scenarios**:
-  - **High Latency**: Inject 500ms+ lag. Verify clients handle it without crashing, though timing assertions may adjust.
-  - **Packet Loss**: Inject 100% drop rate. Verify clients handle missing messages gracefully (or tests fail as expected).
-  - **Reconnection**: Verify clients can disconnect and rejoin the session seamlessly.
+- **Goal:** Validate stability under network faults
+- **Patterns:**
+  - Inject latency (e.g., 500ms+) via `POST /chaos` ([chaos.ts](../server/chaos.ts))
+  - Inject packet loss (dropRate=1.0)
+  - Test reconnection logic ([reconnect.spec.ts](../tests/scenarios/reconnect.spec.ts))
 
 ### 3. Load Testing
-
-- **Goal**: Verify concurrency limits.
-- **Scenario**: Spin up 50+ concurrent WebSocket clients. Ensure broadcast reaches all of them within an acceptable time window.
+- **Goal:** Validate concurrency and throughput
+- **Pattern:**
+  - [load.spec.ts](../tests/scenarios/load.spec.ts): 50+ concurrent WebSocket clients, broadcast verification
+  - [load.js](../load.js): k6 load test script
 
 ### 4. Hybrid Integration
+- **Goal:** Verify cross-protocol side effects
+- **Pattern:**
+  - [hybrid-flow.spec.ts](../tests/scenarios/hybrid-flow.spec.ts): REST triggers WebSocket notification
 
-- **Goal**: Verify cross-protocol side effects.
-- **Scenario**: Trigger a REST API call and assert a WebSocket notification is received.
+## Tools & Reporting
+- **Test Runner:** Playwright (async, robust reporting)
+- **Load:** k6 (see [load.js](../load.js))
+- **CI/CD:** GitHub Actions ([ci.yml](../ci.yml)), Allure/Playwright reports
+- **Visual Regression:** Playwright screenshots
 
-## Tools
-
-- **Runner**: Playwright (chosen for its robust async handling and reporting).
-- **CI/CD**: GitHub Actions (runs on every push).
-- **Reporting**: HTML Reports (artifacts generated on CI).
+---
+**See also:**
+- [Architecture](architecture.md) for system/component overview
+- [README.md](../README.md) for quickstart and structure
