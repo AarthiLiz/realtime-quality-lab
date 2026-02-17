@@ -6,7 +6,9 @@ FROM node:20-alpine AS build
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
+# NOTE: package-lock.json is intentionally omitted to force a clean install
+# from package.json, as the lockfile in the repository is invalid.
 
 # Install all dependencies for TypeScript compilation
 RUN npm install
