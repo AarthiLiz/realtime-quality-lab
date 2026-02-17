@@ -28,7 +28,7 @@ WORKDIR /usr/src/app
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=build /usr/src/app/dist/app.js ./
-COPY --from=build /usr/src/app/server/public ./server/public
+COPY --from=build /usr/src/app/server/public ./public
 COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/package.json ./
 USER appuser

@@ -1,12 +1,17 @@
 /* eslint-disable no-console */
 import express from 'express';
 import { createServer } from 'http';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { createWebSocketServer, broadcast } from './websocket.ts';
 import { chaosState } from './chaos.ts';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(express.json());
-app.use(express.static('server/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const messages: string[] = [];
 let chaosTimer: NodeJS.Timeout | null = null;
