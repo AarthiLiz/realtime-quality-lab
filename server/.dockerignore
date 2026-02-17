@@ -1,7 +1,0 @@
-# Ignore local dependencies, as they are installed inside the container
-node_modules
-
-# Ignore test reports and logs
-allure-results
-allure-report
-npm-debug.log

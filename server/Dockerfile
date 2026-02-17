@@ -13,8 +13,9 @@ COPY package.json ./
 # Install all dependencies for TypeScript compilation
 RUN npm install
 
-# Copy the rest of the application source code
-COPY . .
+# Copy only the necessary source code for building the server
+COPY tsconfig.json ./
+COPY server ./server
 
 # Bundle with esbuild to handle TS extensions and create a single ESM file
 RUN npx esbuild server/app.ts --bundle --platform=node --format=esm --outfile=dist/app.js --packages=external

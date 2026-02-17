@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+out/
+
+# Test reports
+allure-results
+allure-report
+playwright-report
+test-results
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Env files
+.env
+.env.*
+!.env.example
