@@ -10,6 +10,8 @@ A robust test automation framework designed to validate **Realtime WebSocket Arc
 - **Test Framework**: Playwright (Test Runner & Assertions)
 - **Chaos Engine**: Custom middleware to inject latency and packet loss
 
+> See Architecture for a deep dive into the system design.
+
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
@@ -38,6 +40,8 @@ npm test
 | **Hybrid Flow** | Triggers WebSocket events via REST API calls. |
 | **Load Test** | Simulates 50 concurrent clients to verify throughput. |
 | **Resilience** | Verifies client reconnection logic. |
+
+> See Test Strategy for details on our QA philosophy.
 
 ## 📂 Project Structure
 
