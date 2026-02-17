@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
-    "server": "ts-node-esm server/app.ts"
+    "server": "tsx server/app.ts"
   },
   "repository": {
     "type": "git",
