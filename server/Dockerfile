@@ -1,6 +1,6 @@
 # Stage 1: Build stage
 # Use a specific Node.js version on a lean OS like Alpine
-FROM node:20-alpine AS builder
+FROM node:20-alpine AS build
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -8,11 +8,17 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install production dependencies. Using 'npm install' to handle the out-of-sync lockfile.
-RUN npm install --only=production
+# Install all dependencies for TypeScript compilation
+RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
+
+# Bundle with esbuild to handle TS extensions and create a single ESM file
+RUN npx esbuild server/app.ts --bundle --platform=node --format=esm --outfile=dist/app.js --packages=external
+
+# Remove devDependencies to create a clean production node_modules folder
+RUN npm prune --production
 
 # Stage 2: Production stage
 # Use the same lean base image for the final image
@@ -20,17 +26,15 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
-# Create a non-root user and group for better security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Copy installed dependencies and source code from the builder stage
-COPY --from=builder /usr/src/app .
-
-# Switch to the non-root user
+COPY --from=build /usr/src/app/dist/app.js ./
+COPY --from=build /usr/src/app/server/public ./server/public
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/package.json ./
 USER appuser
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # The command to run the application
-CMD [ "node", "server.js" ]
+CMD [ "node", "app.js" ]
